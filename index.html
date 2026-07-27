@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run Green – Run. Walk. Improve.</title>
+
+  <!-- Basic SEO & Social -->
+  <meta name="description" content="Run Green is a privacy-first running, walking, and nutrition app for iPhone. Track distance, pace, calories, elevation, heart rate, activity scores, food, weight, and progress. Optional online summaries, food search, private groups, clubs, and challenges." />
+  <meta property="og:title" content="Run Green – Run. Walk. Improve." />
+  <meta property="og:description" content="Track runs, walks, pace, calories, nutrition, weight, and effort with a focused fitness companion that respects your privacy." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://run.thegreenportfolio.ca/assets/preview.png" />
+  <meta property="og:url" content="https://run.thegreenportfolio.ca/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="application-name" content="Run Green">
+  <link rel="canonical" href="https://run.thegreenportfolio.ca/">
+
+  <!-- Safari / Favorites / App Icons -->
+ <link rel="icon" type="image/png" href="./assets/icon.png">
+    <link rel="apple-touch-icon" href="./assets/icon.png">
+  <meta name="theme-color" content="#0d8a25">
+
+  <!-- Add the Run Green App Store ID here when available:
+  <meta name="apple-itunes-app" content="app-id=RUN_GREEN_APP_ID" />
+  -->
+
+<style>
+    :root {
+      --bg: #f5f8f4;
+      --bg-body: #f5f5f7;
+      --bg-card: #ffffff;
+      --border-card: #e5e5ea;
+      --pill-bg: #ffffff;
+      --pill-border: #d2d2d7;
+      --accent: #0d8a25;
+      --accent-soft: #e4f4e8;
+      --accent-dark: #0b6a1e;
+      --text-main: #111111;
+      --text-sub: #6e6e73;
+      --chip-bg: #f2f2f7;
+      --chip-border: #e5e5ea;
+      --button-text: #ffffff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #020b05;
+        --bg-body: #000000;
+        --bg-card: #1c1c1e;
+        --border-card: #3a3a3c;
+        --pill-bg: #1c1c1e;
+        --pill-border: #3a3a3c;
+        --accent: #44d965;
+        --accent-soft: #062411;
+        --accent-dark: #2ba448;
+        --text-main: #f5f5f7;
+        --text-sub: #a1a1a6;
+        --chip-bg: #2c2c2e;
+        --chip-border: #3a3a3c;
+        --button-text: #020b05;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+                   "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HERO */
+
+    .hero {
+      background: radial-gradient(circle at top left, var(--accent-soft) 0, var(--bg) 40%, var(--bg-body) 100%);
+      padding: 40px 16px 56px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .gp-label {
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .hero-pill-emoji {
+      font-size: 18px;
+    }
+    .hero-pill-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px; /* optional */
+  object-fit: contain;
+}
+.hero-video {
+  max-width: 360px;
+ margin: 40px auto 30px;  /* NEW — adds space above and below */
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+}
+
+.hero-video-file {
+  width: 100%;
+  display: block;
+}
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+      color: var(--text-main);
+    }
+
+    .hero-subtitle {
+      max-width: 620px;
+      margin: 0 auto 28px;
+      font-size: 18px;
+      color: var(--text-sub);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-secondary {
+      border-radius: 999px;
+      padding: 14px 26px;
+      font-weight: 600;
+      font-size: 16px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .hero-btn-primary {
+      background: var(--accent);
+      color: var(--button-text);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+    }
+
+    .hero-btn-secondary {
+      background: var(--pill-bg);
+      color: var(--text-main);
+      border-color: var(--pill-border);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .hero-trial {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+.creator-link {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.creator-link:hover {
+  text-decoration: underline;
+}
+
+.event-link {
+  color: #2f8cff;
+}
+
+.maze-link {
+  color: #0d8a25;
+}
+    /* INTRO */
+
+    .intro {
+      padding: 36px 16px 16px;
+      text-align: center;
+    }
+
+    .intro-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 17px;
+      color: var(--text-sub);
+    }
+
+    .intro-inner strong {
+      color: var(--text-main);
+    }
+
+    /* FEATURE MEDIA SECTIONS */
+
+    .features-media {
+      max-width: 980px;
+      margin: 32px auto 10px;
+      padding: 0 16px;
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .feature-row.reverse {
+      direction: rtl;
+    }
+    .feature-row.reverse > * { direction: ltr; }
+
+    .feature-copy h3 {
+      font-size: 24px;
+      margin: 0 0 10px;
+    }
+
+    .feature-copy p {
+      margin: 0;
+      font-size: 16px;
+      color: var(--text-sub);
+    }
+
+    .feature-media-frame {
+      border-radius: 28px;
+      background: #000;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+
+      /* NEW: make screenshots smaller & centered */
+      max-width: 360px;
+      justify-self: center;
+    }
+
+    .feature-media-frame img,
+    .feature-media-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* “WHAT YOU GET” CARD */
+
+    .card-shell {
+      max-width: 1020px;
+      margin: 34px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 26px;
+      border: 1px solid var(--border-card);
+      padding: 32px 26px 30px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 26px;
+      margin: 0 0 4px;
+    }
+
+    .card-subtitle {
+      text-align: center;
+      font-size: 15px;
+      color: var(--text-sub);
+      margin-bottom: 26px;
+    }
+
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px 36px;
+    }
+
+    .what-item-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .what-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .what-item-body {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* SUBSCRIPTION, LANGUAGES, SUPPORT */
+
+    .section {
+      max-width: 820px;
+      margin: 40px auto 0;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .section p {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: var(--text-sub);
+    }
+
+    .section p strong { color: var(--text-main); }
+
+    .section .cta-small {
+      margin-top: 16px;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--button-text);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+    }
+
+    .section .cta-small:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
+    }
+
+    .lang-card {
+      margin-top: 30px;
+      background: var(--bg-card);
+      border-radius: 24px;
+      border: 1px solid var(--border-card);
+      padding: 20px 18px 18px;
+    }
+
+    .lang-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .lang-chip {
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-border);
+      font-size: 13px;
+    }
+
+    footer {
+      margin: 40px 0 30px;
+      font-size: 12px;
+      color: var(--text-sub);
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    .footer-links {
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0 6px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 30px;
+        padding-bottom: 42px;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .feature-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .card {
+        padding: 24px 18px 22px;
+      }
+      .what-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      /* Slightly smaller screenshots on mobile too */
+      .feature-media-frame {
+        max-width: 360px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="gp-label">THE GREEN PORTFOLIO PRESENTS</div>
+
+      <div class="hero-pill">
+  <img src="./assets/icon.png"
+       alt="Run Green icon"
+       class="hero-pill-icon">
+  <span>Run Green for iPhone</span>
+</div>
+
+    <h1 class="hero-title">Run Green – Run. Walk. Improve.</h1>
+
+<p class="hero-subtitle">
+  Simple, accurate run, walk, and personal nutrition tracking — with adaptive activity scores,
+  a privacy-first design, and optional online features for food search, activity summaries,
+  private groups, clubs, and challenges.
+</p>
+
+
+
+      <div class="hero-cta-row">
+  <!-- Replace # with the Run Green App Store URL when available. -->
+  <a class="hero-btn-primary" href="#" target="_blank" rel="noopener">
+    Get Run Green on the App Store
+  </a>
+
+<a class="hero-btn-secondary" href="https://run.thegreenportfolio.ca/" target="_blank" rel="noopener">
+  For Run &amp; Walk Clubs
+</a>
+
+  <a class="hero-btn-secondary" href="#features">
+    See key features
+  </a>
+</div>
+
+<div class="hero-trial">
+  Try <strong>15 days free</strong> (or <strong>20 activities</strong>, whichever comes first).
+  No account required for local run, walk, and nutrition tracking.
+</div>
+
+<div class="hero-trial" style="margin-top:6px;">
+  An optional account can be created inside the iPhone app for food search, online activity summaries, private groups, clubs, and challenges.
+</div>
+
+<div class="hero-trial" style="margin-top:6px;">
+  From the same creator as
+  <a class="creator-link event-link" href="https://eventradar.thegreenportfolio.ca/" target="_blank" rel="noopener">
+    <strong>Event Radar</strong>
+  </a>
+  and
+  <a class="creator-link maze-link" href="https://maze.thegreenportfolio.ca/" target="_blank" rel="noopener">
+    <strong>Trivia Maze</strong>
+  </a>.
+</div>
+  
+      </div>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p class="intro-inner">
+      <strong>Run Green</strong> helps you run and walk with precision and motivation. Track pace, distance, elevation,
+      calories, heart rate, and effort in one clean view, then follow an adaptive activity score that grows with you. Add food, daily calorie totals, other activities, calorie goals, and weight tracking when you want a fuller picture of your progress.
+    </p>
+  </section>
+
+  <!-- FEATURE MEDIA ROWS (images / videos) -->
+<section class="features-media" aria-label="Feature previews">
+  
+  <!-- Row 1: Live activity dashboard -->
+<div class="feature-row">
+  <div class="feature-copy">
+    <h3>See your run or walk in real time</h3>
+    <p>
+     Live pace, activity score, time, distance, calories, elevation, and heart rate stay clear and readable while you move. Choose Run or Walk before starting, use optional voice updates, and follow your workout in light or dark mode without unnecessary distractions.
+    </p>
+  </div>
+
+  <div class="feature-media-frame">
+    <video autoplay muted playsinline loop>
+      <source src="./assets/clip1.mp4" type="video/mp4" />
+    </video>
+  </div>
+</div>
+
+<!-- Row 2: Activity Summary -->
+<div class="feature-row reverse">
+  <div class="feature-copy">
+    <h3>Review your activity instantly</h3>
+    <p>
+      See your final distance, duration, average pace, calories, activity score, heart rate, and elevation as soon as your run or walk ends. Open the map and detailed analysis for route milestones, elevation, splits, and monthly progress.
+    </p>
+  </div>
+  <div class="feature-media-frame">
+    <img src="./assets/12.activityend.png"
+         alt="Run Green activity summary" />
+  </div>
+</div>
+
+    <!-- Row 3: Route map -->
+  <div class="feature-row">
+    <div class="feature-copy">
+      <h3>Replay and explore your route</h3>
+      <p>
+          Zoom into Apple&nbsp;Maps routes with clear start, finish, and per-km/mi segments. Zoom to a segment to inspect
+          distance, pace, and elevation for that part of the activity.
+     </p>
+    </div>
+    <div class="feature-media-frame">
+      <img
+        src="./assets/2.1.map.png"
+        alt="Route map view in Run Green"
+      />
+    </div>
+  </div>
+    
+    <!-- Row 4: Personal benchmark & charts -->
+  <div class="feature-row reverse">
+    <div class="feature-copy">
+      <h3>Track your personal benchmark over time</h3>
+      <p>
+        Follow your activity score, weekly totals, and monthly trend charts to see how your fitness evolves. Each run or walk
+        feeds an adaptive score that reflects your effort and gives you a quick way to understand your training balance.
+      </p>
+    </div>
+    <div class="feature-media-frame">
+      <img
+        src="./assets/3.benchmark.png"
+        alt="Activity score and weekly charts in Run Green"
+      />
+    </div>
+  </div>
+ <!-- Row 5: Elevation & terrain -->
+  <div class="feature-row">
+    <div class="feature-copy">
+      <h3>Understand your elevation and terrain</h3>
+      <p>
+        Elevation profiles and distance splits help you see where the climbs and descents were. Compare runs and walks and
+        understand how hills shape your effort.
+      </p>
+    </div>
+    <div class="feature-media-frame">
+      <img
+        src="./assets/4.elevation.png"
+        alt="Elevation profile and splits in Run Green"
+      />
+    </div>
+  </div>
+  
+  <!-- Row 6: Monthly Distance -->
+  <div class="feature-row reverse">
+    <div class="feature-copy">
+      <h3>Track monthly & weekly progress</h3>
+      <p>
+        Visualize your distance trends across the week or month and see how your running and walking volume evolves over time.
+      </p>
+    </div>
+    <div class="feature-media-frame">
+      <img src="./assets/5.distance.png"
+           alt="Run Green monthly distance chart" />
+    </div>
+  </div>
+
+  <!-- Row 7: Calories -->
+  <div class="feature-row">
+    <div class="feature-copy">
+      <h3>Calories, nutrition &amp; weight</h3>
+      <p>
+        Track run and walk calories alongside food, daily calorie totals, and additional activities. Set a daily calorie goal, see your net calories after activity, follow weight trends, and keep a private nutrition history on your device.
+      </p>
+    </div>
+    <div class="feature-media-frame">
+      <img src="./assets/6.calories.png"
+           alt="Run Green calories graph" />
+    </div>
+  </div>
+
+  <!-- Row 8: Export -->
+  <div class="feature-row reverse">
+    <div class="feature-copy">
+      <h3>Export your data anytime</h3>
+      <p>
+        Export activities to CSV, GPX, or a TXT Activity Summary for full control of your data — compatible with maps, analysis tools, and third-party apps. You can also export and restore a nutrition backup. Local activity and nutrition tracking stay on your device by default. Online upload is optional and used only when you choose to send selected run or walk summaries to your Run Green account.
+      </p>
+    </div>
+    <div class="feature-media-frame">
+      <img src="./assets/7.Export.png"
+           alt="Run Green export options" />
+    </div>
+  </div>
+  
+  <!-- Row 9: Optional online account and groups -->
+<div class="feature-row">
+  <div class="feature-copy">
+    <h3>Optional online account for groups and clubs</h3>
+    <p>
+      Use Run Green locally without an account, or create an optional account inside the iPhone app to search the shared food catalogue, upload run and walk summaries,
+view your online dashboard, and join private groups, clubs, family groups, or challenges. You stay in control:
+      upload only the activities you choose, and delete your online data or account from inside the app.
+    </p>
+  </div>
+  <div class="feature-media-frame">
+    <img src="./assets/online-account.png"
+         alt="Run Green online account and group dashboard" />
+  </div>
+</div>
+  
+  </section>
+
+  <!-- WHAT YOU GET (YOUR EXACT TEXT) -->
+  <section id="features" class="card-shell">
+    <div class="card">
+      <h2 class="card-title">What you get</h2>
+      <p class="card-subtitle">Designed to help you improve every run and walk — and support your nutrition goals.</p>
+
+      <div class="what-grid">
+
+        
+         <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Real-Time Run &amp; Walk Tracking</span>
+          </div>
+          <div class="what-item-body">
+            Real-Time Run &amp; Walk Tracking — Pace, distance, time, calories, elevation, elevation gain, heart rate, and live activity score in one clean, easy-to-read dashboard.
+          </div>
+        </div>
+    
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Your Activity Score — One Clear Measure</span>
+          </div>
+          <div class="what-item-body">
+            Your Activity Score — Adaptive personal metrics learn from your runs and walks to show meaningful progress instead of generic averages. Optional voice updates help you stay focused.
+          </div>
+        </div>
+        
+        
+         <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Calories, Nutrition &amp; Weight</span>
+          </div>
+          <div class="what-item-body">
+            Calories, Nutrition &amp; Weight — See run and walk calorie estimates, then track food, daily totals, other activities, calorie goals, net calories, and weight trends privately on your device.
+          </div>
+        </div>
+        
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Smart Auto-Pause &amp; Resume</span>
+          </div>
+          <div class="what-item-body">
+            Smart Auto-Pause &amp; Resume — Pauses when you stop and resumes when you start moving again — no taps needed.
+          </div>
+        </div>
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Automatic Screen Management</span>
+          </div>
+          <div class="what-item-body">
+            Automatic Screen Management — The screen stays available during an activity and tracking continues safely in the background to
+            conserve battery.
+          </div>
+        </div>
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Beautiful Route Maps &amp; Elevation</span>
+          </div>
+          <div class="what-item-body">
+            Beautiful Route Maps &amp; Elevation — Full Apple Maps routes with start/finish and per-km/mi segments
+            to visualize effort and terrain.
+          </div>
+        </div>
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Detailed Run &amp; Walk History</span>
+          </div>
+          <div class="what-item-body">
+            Detailed Run &amp; Walk History — Clear weekly, monthly, and yearly statistics for distance, pace, activity calories, nutrition, and weight trends.
+          </div>
+        </div>
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Custom Profile Settings</span>
+          </div>
+          <div class="what-item-body">
+            Custom Profile Settings — Weight, height, metric/imperial units, voice guidance, and optional Bluetooth heart-rate monitor support for more personal statistics.
+          </div>
+        </div>
+        
+         <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Move Safely — Built for Real Routes</span>
+          </div>
+          <div class="what-item-body">
+            While Run Green helps track your activity, your safety always comes first. Stay aware of traffic, trail conditions, weather, and other people. Avoid interacting with your phone while moving, follow local rules, and choose routes appropriate for your ability.
+          </div>
+        </div>
+
+
+        <div>
+          <div class="what-item-title">
+            <span class="what-dot"></span>
+            <span>Privacy First</span>
+          </div>
+          <div class="what-item-body">
+            Privacy First — Your runs, walks, nutrition entries, saved foods, calorie goals, and weight data stay on your device by default. You can export activities as CSV, GPX, or a TXT Activity Summary and create or restore a nutrition backup. If you create an optional online account, you can search the shared food catalogue and upload selected activity summaries for your dashboard, private groups, clubs, or challenges. You can delete your online data or account from inside the app.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIPTION -->
+  <section class="section">
+    <h2>Pro monthly subscription</h2>
+    <p>
+      Unlock <strong>unlimited runs and walks</strong>, detailed analytics, Calories &amp; Nutrition, and long-term adaptive activity scores. Stay motivated with clear progress tracking and practical insights into your activity and nutrition habits.
+    </p>
+    <p>
+      Includes a <strong>15-day free trial</strong> or <strong>20 activities</strong>, whichever comes first.
+      Cancel anytime in your App Store account settings.
+    </p>
+    <!-- Replace # with the Run Green App Store URL when available. -->
+    <a class="cta-small" href="#" target="_blank" rel="noopener">
+      Start your free trial
+    </a>
+    <!-- App Store badge -->
+<div style="margin-top:16px; text-align:center;">
+  <a href="#" target="_blank" rel="noopener">
+    <img
+      src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83"
+      alt="Download on the App Store"
+      style="height:56px;"
+    />
+  </a>
+</div>
+ <!-- Promo video moved here -->
+  <div class="hero-video">
+    <video autoplay muted playsinline loop class="hero-video-file">
+      <source src="./assets/Run Green (Latest iOS Version).mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+  <!-- LANGUAGES -->
+  <section class="section">
+    <div class="lang-card">
+      <h2>Made for runners and walkers worldwide</h2>
+      <p>
+        Run Green includes full English plus <strong>8 additional languages</strong>, including activity voice
+        prompts for start, pause, resume, stop, and distance milestones.
+      </p>
+
+      <div class="lang-chips">
+  <span class="lang-chip">🇬🇧 English</span>
+  <span class="lang-chip">🇫🇷 Français</span>
+  <span class="lang-chip">🇩🇪 Deutsch</span>
+  <span class="lang-chip">🇪🇸 Español</span>
+  <span class="lang-chip">🇮🇹 Italiano</span>
+  <span class="lang-chip">🇵🇱 Polski</span>
+  <span class="lang-chip">🇵🇹 Português</span>
+  <span class="lang-chip">🇷🇴 Română</span>
+  <span class="lang-chip">🇳🇱 Nederlands</span>
+</div>
+    </div>
+  </section>
+
+  <!-- SUPPORT & PRIVACY -->
+  <section class="section">
+    <h2>Support &amp; privacy</h2>
+    <p>
+      Run Green is built around a simple principle: <strong>your data is yours</strong>.
+Run and walk data, nutrition entries, saved foods, calorie goals, and weight records stay on your device by default. If you choose to create an optional account, you can search the shared food catalogue and upload selected activity summaries for your online dashboard, private groups, clubs, and challenges. GPS, elevation, distance, pace, activity-calorie estimates, heart-rate readings, and food data can vary with signal conditions, terrain, devices, product data, and personal settings. Calorie, nutrition, fitness, and heart-rate information is for general guidance only — Run Green is not a medical device.
+    </p>
+
+    <div class="footer-links">
+  <a href="https://run.thegreenportfolio.ca/" target="_blank" rel="noopener">
+    🏃 For Run &amp; Walk Clubs
+  </a>
+  <a href="./privacy.html" target="_blank" rel="noopener">
+    📄 Privacy Policy
+  </a>
+  <a href="./support.html" target="_blank" rel="noopener">
+    💬 Support &amp; contact
+  </a>
+</div>
+</section>
+
+<footer>
+  <p>© 2026 The Green Portfolio. All rights reserved.</p>
+  <p>Made with ❤️ for runners and walkers worldwide.</p>
+  
+<p>
+  <a href="https://run.thegreenportfolio.ca/" target="_blank" rel="noopener">
+    For Run &amp; Walk Clubs
+  </a>
+</p>
+
+</footer>
+
+</div>
+</body>
+</html>
